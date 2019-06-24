@@ -25,7 +25,11 @@ class JokeList extends Component {
                 // id: uuid()
       });
     }
-    this.setState({ jokes: jokes })
+    this.setState({ jokes: jokes });
+    window.localStorage.setItem(
+      "jokes",
+      JSON.stringify(jokes) 
+    )
   }
   handleVote(id, delta){
     this.setState(
