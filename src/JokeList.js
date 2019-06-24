@@ -10,10 +10,18 @@ class JokeList extends Component {
   }
   constructor(props){
     super(props);
-    this.state = { jokes: [] };
+    //if there are jokes in local storage, put them in state, otherwise this.state
+    //is empty array
+    this.state = { jokes: JSON.parse(window.localStorage.getItem("jokes")) || "[]"};
     this.handleVote = this.handleVote.bind(this);
   }
-  async componentDidMount(){
+  componentDidMount(){
+    //ensures we're not overriding existing jokes in local storage every time we refresh page.
+    if(this.state.jokes.length === 0){
+      this.getJokes();
+    }
+  }
+  async getJokes(){
     let jokes = [];
     while(jokes.length < this.props.numJokesToGet){
       let res = await axios.get('https://icanhazdadjoke.com/',
